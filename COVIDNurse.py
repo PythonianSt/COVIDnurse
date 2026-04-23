@@ -36,7 +36,7 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 MODEL = st.secrets.get("MODEL", "gpt-4o-mini")
 
 st.set_page_config(page_title="Long COVID Nurse Assistant", layout="wide")
-st.title("🏥 Long COVID Nurse Assistant (Thai Clinical Tool)")
+st.title("🏥 Long COVID Nurse Assistant, KU KPS Infirmary")
 
 # ---------- Time ----------
 def get_bkk_time():
