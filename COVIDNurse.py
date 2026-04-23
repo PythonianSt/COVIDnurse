@@ -198,18 +198,29 @@ Notes: {notes}
     )
     return res.choices[0].message.content
 
-report = ""
+if "report" not in st.session_state:
+    st.session_state.report = ""
+
 if st.button("🧠 วิเคราะห์ AI"):
-    report = generate_report()
-    st.write(report)
+    st.session_state.report = generate_report()
+
+if st.session_state.report:
+    st.subheader("📋 AI Report")
+    st.write(st.session_state.report)
 
 # ---------- PDF ----------
+
+def split_text(text, max_len=800):
+    return [text[i:i+max_len] for i in range(0, len(text), max_len)]
+
 def create_pdf():
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     doc = SimpleDocTemplate(tmp.name, pagesize=A4)
 
     styles = getSampleStyleSheet()
     thai_style = get_thai_style()
+
+    ai_text = st.session_state.get("report", "-")
 
     content = []
 
@@ -223,10 +234,21 @@ def create_pdf():
         content.append(Paragraph(th(f"- {i}"), thai_style))
     
     content.append(Paragraph(th("AI Report:"), thai_style))
-    content.append(Paragraph(th(report or "-"), thai_style))
+    ccontent.append(Paragraph(th("AI Report:"), thai_style))
+
+    if ai_text:
+        content.append(Paragraph(th(ai_text), thai_style))
+    else:
+        content.append(Paragraph(th("ไม่มีข้อมูล AI"), thai_style))
+
+    for chunk in split_text(ai_text):
+    content.append(Paragraph(th(chunk), thai_style))
+    content.append(Spacer(1, 8))
 
     doc.build(content)
     return tmp.name
+
+
 
 if st.button("📄 Export PDF"):
     pdf_file = create_pdf()
