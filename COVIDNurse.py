@@ -242,8 +242,8 @@ def create_pdf():
         content.append(Paragraph(th("ไม่มีข้อมูล AI"), thai_style))
 
     for chunk in split_text(ai_text):
-    content.append(Paragraph(th(chunk), thai_style))
-    content.append(Spacer(1, 8))
+        content.append(Paragraph(th(chunk), thai_style))
+        content.append(Spacer(1, 8))
 
     doc.build(content)
     return tmp.name
