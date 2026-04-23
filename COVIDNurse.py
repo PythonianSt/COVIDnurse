@@ -234,7 +234,7 @@ def create_pdf():
         content.append(Paragraph(th(f"- {i}"), thai_style))
     
     content.append(Paragraph(th("AI Report:"), thai_style))
-    ccontent.append(Paragraph(th("AI Report:"), thai_style))
+    content.append(Paragraph(th("AI Report:"), thai_style))
 
     if ai_text:
         content.append(Paragraph(th(ai_text), thai_style))
